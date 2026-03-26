@@ -897,7 +897,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
         method:"POST",
         headers:{
           "Content-Type":"application/json",
-          "Authorization":"Bearer sk-or-v1-1234567890abcdef" // Replace with your actual OpenRouter API key
+          "Authorization":`Bearer ${process.env.VITE_OPENROUTER_API_KEY}`
         },
         body:JSON.stringify({
           model:"openrouter/free",
