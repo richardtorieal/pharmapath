@@ -40,7 +40,7 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
 .thinking-dot:nth-child(2){animation-delay:.2s}
 .thinking-dot:nth-child(3){animation-delay:.4s}
 
-.loading-orb{display:inline-block;width:8px;height:8px;border-radius:50%;background:#38bdf8;flex-shrink:0;margin-right:4px;animation:pulse 0.9s ease infinite}
+.loading-orb{display:inline-block;width:8px;height:8px;border-radius:50%;background:#38bdf8;flex-shrink:0;animation:pulse 0.9s ease infinite}
 .btn-solid.loading{background:rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.2);color:rgba(56,189,248,0.5);cursor:not-allowed}
 .btn-solid.loading:hover{background:rgba(56,189,248,0.06)}
 
@@ -168,6 +168,13 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
     max-width: 180px;
     font-size: 11px;
     padding: 12px;
+  }
+}
+
+/* Landscape mobile: add breathing room between canvas and buttons */
+@media (orientation: landscape) {
+  .analyze-section {
+    margin-top: 12px !important;
   }
 }
 `;

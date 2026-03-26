@@ -365,16 +365,16 @@ export function DesignerScreen() {
               style={{
                 opacity: canvas.length === 0 && !loading ? 0.4 : 1,
                 flex: 1,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
+                position: "relative",
+                overflow: "hidden",
               }}
             >
               {loading ? (
                 <>
-                  <span className="loading-orb" />
-                  <span>{loadingPhrase}</span>
+                  <span className="loading-orb" style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)" }} />
+                  <span style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", padding: "0 28px" }}>
+                    {loadingPhrase}
+                  </span>
                 </>
               ) : "🔬 Analyze Pharmacology (AI)"}
             </button>
