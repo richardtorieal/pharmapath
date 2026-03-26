@@ -893,11 +893,12 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
   "novelty": "brief note on whether this is a plausible new chemical entity or redundant with existing drugs"
 }`;
     try{
+      const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
       const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
         method:"POST",
         headers:{
           "Content-Type":"application/json",
-          "Authorization":`Bearer ${process.env.VITE_OPENROUTER_API_KEY}`
+          "Authorization":`Bearer ${apiKey}`
         },
         body:JSON.stringify({
           model:"openrouter/free",
