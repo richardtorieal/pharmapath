@@ -2,7 +2,7 @@
 // PHARMPATH STYLES
 // ═══════════════════════════════════════════════
 
-export const CSS = `
+export const STYLES = `
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-height:100vh}
@@ -40,6 +40,19 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
 .thinking-dot:nth-child(2){animation-delay:.2s}
 .thinking-dot:nth-child(3){animation-delay:.4s}
 
+/* Desktop styles - properly position grid items */
+.designer-layout {
+  grid-template-rows: auto !important;
+}
+
+.designer-left {
+  grid-column: 1 !important;
+}
+
+.designer-right {
+  grid-column: 2 !important;
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .pp { padding: 10px; }
@@ -48,24 +61,33 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .btn { padding: 6px 12px; font-size: 13px; }
   .btn-solid { padding: 8px 16px; font-size: 13px; }
   
-  /* Stack layout for mobile */
+  /* Stack layout for mobile - back to flex */
   .designer-layout {
+    display: flex !important;
     flex-direction: column !important;
+    grid-template-rows: auto !important; /* Reset grid */
   }
   
   .designer-left {
     order: 1;
     margin-bottom: 20px;
+    grid-column: auto !important;
   }
   
   .designer-right {
-    order: 3;
+    order: 2;
+    grid-column: auto !important;
   }
   
   .analyze-section {
-    order: 2;
     margin: 20px 0;
     text-align: center;
+  }
+  
+  .ai-results-section {
+    order: 3;
+    grid-column: auto !important;
+  }
   }
   
   .designer-slot {
@@ -94,8 +116,8 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   
   /* Designer screen: iPhone layout - canvas and AI button at top, fixed */
   .designer-layout {
-    display: flex !important;
-    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
   }
   
   .designer-left {
@@ -116,11 +138,6 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .analyze-section {
     margin: 0 !important;
     padding: 16px 0;
-  }
-  
-  /* AI results scroll normally below sticky section */
-  .ai-results-section {
-    margin-top: 20px;
   }
   
   .designer-slot {

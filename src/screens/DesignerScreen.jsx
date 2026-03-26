@@ -63,6 +63,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
         },
         body: JSON.stringify({
           model: "openrouter/free",
+        //   model: "google/gemma-3-4b-it:free",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 1000,
         }),
@@ -73,6 +74,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
       const parsed = JSON.parse(clean);
       setResult(parsed);
     } catch (e) {
+        console.log("Error analyzing open router response:", e);
       setError(
         "Analysis failed. Please check your OpenRouter API key and try again."
       );
@@ -330,216 +332,216 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
               Clear
             </button>
           </div>
-        </div>
 
-        {/* AI Results Section */}
-        <div className="ai-results-section" style={{ marginTop: 20 }}>
-          {error && (
-            <div
-              style={{
-                background: "rgba(239,68,68,0.1)",
-                border: "1px solid rgba(239,68,68,0.3)",
-                borderRadius: 10,
-                padding: 14,
-                fontSize: 13,
-                color: "#f87171",
-              }}
-            >
-              {error}
-            </div>
-          )}
+          {/* AI Results Section */}
+          <div className="ai-results-section" style={{ marginTop: 20 }}>
+            {error && (
+              <div
+                style={{
+                  background: "rgba(239,68,68,0.1)",
+                  border: "1px solid rgba(239,68,68,0.3)",
+                  borderRadius: 10,
+                  padding: 14,
+                  fontSize: 13,
+                  color: "#f87171",
+                }}
+              >
+                {error}
+              </div>
+            )}
 
-          {result && (() => {
-            const vs = verdictStyle[result.verdict] || verdictStyle.INERT;
-            return (
-              <div className="fadein panel" style={{ border: "1px solid rgba(56,189,248,0.2)" }}>
-                {/* Verdict banner */}
-                <div
-                  style={{
-                    background: vs.bg,
-                    border: `1px solid ${vs.border}`,
-                    borderRadius: 10,
-                    padding: "12px 16px",
-                    marginBottom: 16,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                  }}
-                >
-                  <span style={{ fontSize: 26 }}>{vs.icon}</span>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: vs.text,
-                        letterSpacing: ".06em",
-                      }}
-                    >
-                      {result.verdict}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 13,
-                        color: vs.text,
-                        opacity: 0.9,
-                        marginTop: 2,
-                      }}
-                    >
-                      {result.verdict_reason}
+            {result && (() => {
+              const vs = verdictStyle[result.verdict] || verdictStyle.INERT;
+              return (
+                <div className="fadein panel" style={{ border: "1px solid rgba(56,189,248,0.2)" }}>
+                  {/* Verdict banner */}
+                  <div
+                    style={{
+                      background: vs.bg,
+                      border: `1px solid ${vs.border}`,
+                      borderRadius: 10,
+                      padding: "12px 16px",
+                      marginBottom: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                    }}
+                  >
+                    <span style={{ fontSize: 26 }}>{vs.icon}</span>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: vs.text,
+                          letterSpacing: ".06em",
+                        }}
+                      >
+                        {result.verdict}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: vs.text,
+                          opacity: 0.9,
+                          marginTop: 2,
+                        }}
+                      >
+                        {result.verdict_reason}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div
-                  className="syne"
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: "#e8f4ff",
-                    marginBottom: 16,
-                  }}
-                >
-                  {result.name}
-                </div>
+                  <div
+                    className="syne"
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      color: "#e8f4ff",
+                      marginBottom: 16,
+                    }}
+                  >
+                    {result.name}
+                  </div>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: 14,
-                    marginBottom: 14,
-                  }}
-                >
-                  {[
-                    ["🎯 Mechanism of Action", result.moa],
-                    ["🔗 Target", result.target],
-                    ["💊 Indication", result.indication],
-                    ["⚗️ ADME", result.adme],
-                  ].map(([label, val]) => (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 14,
+                      marginBottom: 14,
+                    }}
+                  >
+                    {[
+                      ["🎯 Mechanism of Action", result.moa],
+                      ["🔗 Target", result.target],
+                      ["💊 Indication", result.indication],
+                      ["⚗️ ADME", result.adme],
+                    ].map(([label, val]) => (
+                      <div
+                        key={label}
+                        style={{
+                          background: "rgba(56,189,248,0.04)",
+                          border: "1px solid rgba(56,189,248,0.1)",
+                          borderRadius: 8,
+                          padding: "10px 12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#38bdf8",
+                            marginBottom: 5,
+                          }}
+                        >
+                          {label}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 13,
+                            color: "#a8c4dc",
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {val}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {result.warnings?.length > 0 && (
                     <div
-                      key={label}
                       style={{
-                        background: "rgba(56,189,248,0.04)",
-                        border: "1px solid rgba(56,189,248,0.1)",
+                        background: "rgba(239,68,68,0.07)",
+                        border: "1px solid rgba(239,68,68,0.2)",
                         borderRadius: 8,
                         padding: "10px 12px",
+                        marginBottom: 14,
                       }}
                     >
                       <div
                         style={{
                           fontSize: 11,
                           fontWeight: 700,
-                          color: "#38bdf8",
-                          marginBottom: 5,
+                          color: "#f87171",
+                          marginBottom: 6,
                         }}
                       >
-                        {label}
+                        ⚠️ SAFETY FLAGS
+                      </div>
+                      {result.warnings.map((w, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            fontSize: 12,
+                            color: "#fca5a5",
+                            padding: "3px 0",
+                            borderBottom:
+                              i < result.warnings.length - 1
+                                ? "1px solid rgba(239,68,68,0.1)"
+                                : "none",
+                          }}
+                        >
+                          • {w}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "#38bdf8",
+                          marginBottom: 6,
+                        }}
+                      >
+                        📚 SIMILAR APPROVED DRUGS
+                      </div>
+                      {(result.similar_drugs || []).map((d, i) => (
+                        <span
+                          key={i}
+                          className="tag"
+                          style={{
+                            background: "rgba(56,189,248,0.1)",
+                            border: "1px solid rgba(56,189,248,0.25)",
+                            color: "#7dd3f8",
+                            fontSize: 11,
+                          }}
+                        >
+                          {d}
+                        </span>
+                      ))}
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "#38bdf8",
+                          marginBottom: 6,
+                        }}
+                      >
+                        💡 NOVELTY ASSESSMENT
                       </div>
                       <div
                         style={{
-                          fontSize: 13,
-                          color: "#a8c4dc",
+                          fontSize: 12,
+                          color: "#8ab0c8",
                           lineHeight: 1.6,
                         }}
                       >
-                        {val}
+                        {result.novelty}
                       </div>
-                    </div>
-                  ))}
-                </div>
-
-                {result.warnings?.length > 0 && (
-                  <div
-                    style={{
-                      background: "rgba(239,68,68,0.07)",
-                      border: "1px solid rgba(239,68,68,0.2)",
-                      borderRadius: 8,
-                      padding: "10px 12px",
-                      marginBottom: 14,
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "#f87171",
-                        marginBottom: 6,
-                      }}
-                    >
-                      ⚠️ SAFETY FLAGS
-                    </div>
-                    {result.warnings.map((w, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          fontSize: 12,
-                          color: "#fca5a5",
-                          padding: "3px 0",
-                          borderBottom:
-                            i < result.warnings.length - 1
-                              ? "1px solid rgba(239,68,68,0.1)"
-                              : "none",
-                        }}
-                      >
-                        • {w}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "#38bdf8",
-                        marginBottom: 6,
-                      }}
-                    >
-                      📚 SIMILAR APPROVED DRUGS
-                    </div>
-                    {(result.similar_drugs || []).map((d, i) => (
-                      <span
-                        key={i}
-                        className="tag"
-                        style={{
-                          background: "rgba(56,189,248,0.1)",
-                          border: "1px solid rgba(56,189,248,0.25)",
-                          color: "#7dd3f8",
-                          fontSize: 11,
-                        }}
-                      >
-                        {d}
-                      </span>
-                    ))}
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "#38bdf8",
-                        marginBottom: 6,
-                      }}
-                    >
-                      💡 NOVELTY ASSESSMENT
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: "#8ab0c8",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {result.novelty}
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })()}
+              );
+            })()}
+          </div>
         </div>
       </div>
     </div>
