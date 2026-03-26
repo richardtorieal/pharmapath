@@ -40,6 +40,10 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
 .thinking-dot:nth-child(2){animation-delay:.2s}
 .thinking-dot:nth-child(3){animation-delay:.4s}
 
+.loading-orb{display:inline-block;width:8px;height:8px;border-radius:50%;background:#38bdf8;flex-shrink:0;margin-right:4px;animation:pulse 0.9s ease infinite}
+.btn-solid.loading{background:rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.2);color:rgba(56,189,248,0.5);cursor:not-allowed}
+.btn-solid.loading:hover{background:rgba(56,189,248,0.06)}
+
 /* Desktop styles - properly position grid items */
 .designer-layout {
   grid-template-rows: auto !important;
@@ -61,29 +65,44 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .btn { padding: 6px 12px; font-size: 13px; }
   .btn-solid { padding: 8px 16px; font-size: 13px; }
   
-  /* Stack layout for mobile - back to flex */
+  /* Stack layout for mobile - canvas + buttons first, palette below */
   .designer-layout {
     display: flex !important;
     flex-direction: column !important;
-    grid-template-rows: auto !important; /* Reset grid */
+    align-items: stretch !important;
+    grid-template-rows: auto !important;
+    gap: 0 !important;
   }
-  
-  .designer-left {
-    order: 1;
-    margin-bottom: 20px;
-    grid-column: auto !important;
-  }
-  
+
   .designer-right {
-    order: 2;
+    order: 1;
     grid-column: auto !important;
   }
-  
-  .analyze-section {
-    margin: 20px 0;
-    text-align: center;
+
+  .designer-canvas-wrap {
+    position: sticky;
+    top: 55px;
+    z-index: 30;
+    background: #060d1a;
+    /* bleed past the 20px container padding so the bar spans full viewport width */
+    margin-left: -20px;
+    width: calc(100% + 40px);
+    padding: 0 20px 14px;
+    border-bottom: 1px solid rgba(56,189,248,0.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   }
-  
+
+  .designer-left {
+    order: 2;
+    margin-top: 16px;
+    grid-column: auto !important;
+  }
+
+  .analyze-section {
+    margin: 0 !important;
+    padding: 12px 0 0;
+  }
+
   .ai-results-section {
     order: 3;
     grid-column: auto !important;
@@ -114,44 +133,7 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
     gap: 16px !important;
   }
   
-  /* Designer screen: iPhone layout - canvas + AI section first and sticky */
-  .designer-layout {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  
-  .designer-right {
-    order: 1;
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    background: #060d1a;
-    width: 100%;
-    padding: 12px 0 16px;
-    border-bottom: 1px solid rgba(56,189,248,0.12);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.32);
-  }
-
-  .designer-left {
-    order: 2;
-    margin-top: 16px;
-  }
-  
-  .designer-left {
-    order: 2;
-    margin-top: 16px;
-  }
-
-  .designer-layout {
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
-  }
-  
-  .analyze-section {
-    margin: 0 !important;
-    padding: 16px 0;
-  }
-  
+  /* Designer screen: iPhone slot size */
   .designer-slot {
     min-height: 120px;
   }
