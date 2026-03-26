@@ -65,6 +65,15 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .btn { padding: 6px 12px; font-size: 13px; }
   .btn-solid { padding: 8px 16px; font-size: 13px; }
   
+  /* Drug screen: single column, info → 3D → lifecycle */
+  .drug-info-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .drug-info-card { order: 1; }
+  .drug-mol-card  { order: 2; }
+
   /* Stack layout for mobile - canvas + buttons first, palette below */
   .designer-layout {
     display: flex !important;
@@ -126,12 +135,6 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .elem-chip { padding: 6px 10px; font-size: 11px; }
   .btn { padding: 5px 10px; font-size: 12px; }
   .btn-solid { padding: 7px 14px; font-size: 12px; }
-  
-  /* Drug screen: Stack 3D viewer and info card vertically */
-  .drug-info-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
   
   /* Designer screen: iPhone slot size */
   .designer-slot {

@@ -29,7 +29,7 @@ export function DrugScreen({ drug, onBack }) {
           borderBottom: "1px solid rgba(56,189,248,0.12)",
           padding: "16px 24px",
           position: "sticky",
-          top: 0,
+          top: 55,
           zIndex: 100,
           display: "flex",
           alignItems: "center",
@@ -132,7 +132,7 @@ export function DrugScreen({ drug, onBack }) {
         >
           {/* 3D Viewer */}
           <div
-            className="card"
+            className="card drug-mol-card"
             style={{
               height: 400,
               padding: 0,
@@ -177,7 +177,7 @@ export function DrugScreen({ drug, onBack }) {
           </div>
 
           {/* Drug info card */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="drug-info-card" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div className="panel" style={{ flex: 1 }}>
               <div
                 style={{
