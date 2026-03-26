@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ELEMENTS, GROUPS } from "../constants.js";
 
 export function DesignerScreen() {
@@ -6,9 +6,36 @@ export function DesignerScreen() {
   const [dragging, setDragging] = useState(null);
   const [isOver, setIsOver] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingPhrase, setLoadingPhrase] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const dropRef = useRef(null);
+
+  const LOADING_PHRASES = [
+    "🧪 Filling test tubes...",
+    "🔥 Firing up the Bunsen burner...",
+    "⚗️ Titrating the solution...",
+    "🧬 Sequencing the genome...",
+    "📡 Consulting the pharmacopeia...",
+    "🔬 Peering through the microscope...",
+    "💊 Checking the formulary...",
+    "🧫 Culturing the sample...",
+    "📊 Running regression models...",
+    "⚡ Exciting the electrons...",
+    "🌡️ Waiting for equilibrium...",
+    "🧲 Aligning the molecular dipoles...",
+  ];
+
+  useEffect(() => {
+    if (!loading) return;
+    setLoadingPhrase(LOADING_PHRASES[0]);
+    let i = 1;
+    const interval = setInterval(() => {
+      setLoadingPhrase(LOADING_PHRASES[i % LOADING_PHRASES.length]);
+      i++;
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const handleDragStart = (item) => {
     setDragging(item);
@@ -32,27 +59,31 @@ export function DesignerScreen() {
     setError(null);
   };
 
+  const ANALYSIS_SCHEMA = {
+    type: "object",
+    properties: {
+      name:           { type: "string" },
+      moa:            { type: "string" },
+      target:         { type: "string" },
+      indication:     { type: "string" },
+      adme:           { type: "string" },
+      verdict:        { type: "string", enum: ["BENEFICIAL", "RISKY", "TOXIC", "INERT", "CONTROLLED SUBSTANCE"] },
+      verdict_reason: { type: "string" },
+      warnings:       { type: "array", items: { type: "string" } },
+      similar_drugs:  { type: "array", items: { type: "string" } },
+      novelty:        { type: "string" },
+    },
+    required: ["name", "moa", "target", "indication", "adme", "verdict", "verdict_reason", "warnings", "similar_drugs", "novelty"],
+    additionalProperties: false,
+  };
+
   const analyzeWithClaude = async () => {
     if (canvas.length === 0) return;
     setLoading(true);
     setResult(null);
     setError(null);
     const components = canvas.map((c) => c.sym).join(", ");
-    const prompt = `You are a medicinal chemist and pharmacologist. A pharmacy student has assembled the following chemical components for a hypothetical drug molecule: [${components}].
-
-Analyze this combination and respond in this EXACT JSON format with no other text:
-{
-  "name": "creative informal drug name (2-3 words max)",
-  "moa": "2-3 sentence mechanism of action based on these components",
-  "target": "likely receptor/enzyme target (be specific with protein names)",
-  "indication": "most plausible therapeutic indication",
-  "adme": "brief ADME prediction: absorption, metabolism CYP enzymes, excretion route",
-  "verdict": "BENEFICIAL" or "RISKY" or "TOXIC" or "INERT" or "CONTROLLED SUBSTANCE",
-  "verdict_reason": "2-3 sentence explanation of why this verdict—cite specific components",
-  "warnings": ["specific safety concern 1", "specific safety concern 2", "specific safety concern 3"],
-  "similar_drugs": ["existing approved drug with similar scaffold/mechanism 1", "similar drug 2"],
-  "novelty": "brief note on whether this is a plausible new chemical entity or redundant with existing drugs"
-}`;
+    const prompt = `You are a medicinal chemist and pharmacologist. A pharmacy student has assembled the following chemical components for a hypothetical drug molecule: [${components}]. Analyze this combination and return a pharmacological assessment.`;
     try {
       const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -63,21 +94,37 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
         },
         body: JSON.stringify({
           model: "openrouter/free",
-        //   model: "google/gemma-3-4b-it:free",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 1000,
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "drug_analysis",
+              strict: true,
+              schema: ANALYSIS_SCHEMA,
+            },
+          },
         }),
       });
       const data = await res.json();
+      const finishReason = data.choices?.[0]?.finish_reason;
       const text = data.choices?.[0]?.message?.content || "";
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
+
+      if (!text || finishReason === "length" || data.error) {
+        throw new Error("model_failure");
+      }
+
+      const parsed = JSON.parse(text);
+
+      // Validate the required fields came back correctly
+      if (!parsed.verdict || !parsed.name || !parsed.moa) {
+        throw new Error("schema_mismatch");
+      }
+
       setResult(parsed);
     } catch (e) {
-        console.log("Error analyzing open router response:", e);
-      setError(
-        "Analysis failed. Please check your OpenRouter API key and try again."
-      );
+      console.log("Error analyzing open router response:", e);
+      setError("lab_error");
     }
     setLoading(false);
   };
@@ -237,6 +284,8 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
 
         {/* Right: Canvas + results */}
         <div className="designer-right" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Sticky canvas + actions wrapper (sticky on mobile only via CSS) */}
+          <div className="designer-canvas-wrap">
           {/* Drop zone */}
           <div
             ref={dropRef}
@@ -310,28 +359,30 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
           {/* Actions */}
           <div className="analyze-section" style={{ display: "flex", gap: 10 }}>
             <button
-              className="btn-solid"
+              className={`btn-solid${loading ? " loading" : ""}`}
               onClick={analyzeWithClaude}
               disabled={loading || canvas.length === 0}
               style={{
-                opacity: canvas.length === 0 ? 0.4 : 1,
+                opacity: canvas.length === 0 && !loading ? 0.4 : 1,
                 flex: 1,
+                position: "relative",
+                overflow: "hidden",
               }}
             >
               {loading ? (
                 <>
-                  <span className="thinking-dot" />
-                  <span className="thinking-dot" />
-                  <span className="thinking-dot" />
+                  <span className="loading-orb" style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)" }} />
+                  <span style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", padding: "0 28px" }}>
+                    {loadingPhrase}
+                  </span>
                 </>
-              ) : (
-                "🔬 Analyze Pharmacology (AI)"
-              )}
+              ) : "🔬 Analyze Pharmacology (AI)"}
             </button>
             <button className="btn" onClick={clear} style={{ opacity: canvas.length === 0 ? 0.4 : 1 }}>
               Clear
             </button>
           </div>
+          </div>{/* end designer-canvas-wrap */}
 
           {/* AI Results Section */}
           <div className="ai-results-section" style={{ marginTop: 20 }}>
@@ -344,9 +395,20 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
                   padding: 14,
                   fontSize: 13,
                   color: "#f87171",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
                 }}
               >
-                {error}
+                <span style={{ fontSize: 22, flexShrink: 0 }}>🧪</span>
+                <div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                    The AI Lab Assistant broke a test tube
+                  </div>
+                  <div style={{ fontSize: 12, color: "#fca5a5", opacity: 0.85 }}>
+                    Please Try again
+                  </div>
+                </div>
               </div>
             )}
 

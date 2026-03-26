@@ -40,6 +40,10 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
 .thinking-dot:nth-child(2){animation-delay:.2s}
 .thinking-dot:nth-child(3){animation-delay:.4s}
 
+.loading-orb{display:inline-block;width:8px;height:8px;border-radius:50%;background:#38bdf8;flex-shrink:0;animation:pulse 0.9s ease infinite}
+.btn-solid.loading{background:rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.2);color:rgba(56,189,248,0.5);cursor:not-allowed}
+.btn-solid.loading:hover{background:rgba(56,189,248,0.06)}
+
 /* Desktop styles - properly position grid items */
 .designer-layout {
   grid-template-rows: auto !important;
@@ -61,29 +65,53 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .btn { padding: 6px 12px; font-size: 13px; }
   .btn-solid { padding: 8px 16px; font-size: 13px; }
   
-  /* Stack layout for mobile - back to flex */
+  /* Drug screen: single column, info → 3D → lifecycle */
+  .drug-info-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .drug-info-card { order: 1; }
+  .drug-mol-card  { order: 2; }
+
+  /* Stack layout for mobile - canvas + buttons first, palette below */
   .designer-layout {
     display: flex !important;
     flex-direction: column !important;
-    grid-template-rows: auto !important; /* Reset grid */
+    align-items: stretch !important;
+    grid-template-rows: auto !important;
+    gap: 0 !important;
   }
-  
-  .designer-left {
-    order: 1;
-    margin-bottom: 20px;
-    grid-column: auto !important;
-  }
-  
+
   .designer-right {
-    order: 2;
+    order: 1;
     grid-column: auto !important;
   }
-  
-  .analyze-section {
-    margin: 20px 0;
-    text-align: center;
+
+  .designer-canvas-wrap {
+    position: sticky;
+    top: 55px;
+    z-index: 30;
+    background: #060d1a;
+    /* bleed past the 20px container padding so the bar spans full viewport width */
+    margin-left: -20px;
+    width: calc(100% + 40px);
+    padding: 0 20px 14px;
+    border-bottom: 1px solid rgba(56,189,248,0.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   }
-  
+
+  .designer-left {
+    order: 2;
+    margin-top: 16px;
+    grid-column: auto !important;
+  }
+
+  .analyze-section {
+    margin: 0 !important;
+    padding: 12px 0 0;
+  }
+
   .ai-results-section {
     order: 3;
     grid-column: auto !important;
@@ -108,38 +136,7 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .btn { padding: 5px 10px; font-size: 12px; }
   .btn-solid { padding: 7px 14px; font-size: 12px; }
   
-  /* Drug screen: Stack 3D viewer and info card vertically */
-  .drug-info-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-  
-  /* Designer screen: iPhone layout - canvas and AI button at top, fixed */
-  .designer-layout {
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
-  }
-  
-  .designer-left {
-    order: 2;
-    margin-top: 16px;
-  }
-  
-  .designer-right {
-    order: 1;
-    position: sticky;
-    top: 60px; /* Account for header height */
-    z-index: 10;
-    background: #060d1a;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(56,189,248,0.1);
-  }
-  
-  .analyze-section {
-    margin: 0 !important;
-    padding: 16px 0;
-  }
-  
+  /* Designer screen: iPhone slot size */
   .designer-slot {
     min-height: 120px;
   }
@@ -174,6 +171,13 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
     max-width: 180px;
     font-size: 11px;
     padding: 12px;
+  }
+}
+
+/* Landscape mobile: add breathing room between canvas and buttons */
+@media (orientation: landscape) {
+  .analyze-section {
+    margin-top: 12px !important;
   }
 }
 `;
