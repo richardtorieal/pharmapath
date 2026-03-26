@@ -118,15 +118,12 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
   .designer-layout {
     display: flex !important;
     flex-direction: column !important;
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
   }
   
   .designer-right {
     order: 1;
     position: sticky;
     top: 0;
-    left: 0;
     z-index: 30;
     background: #060d1a;
     width: 100%;
