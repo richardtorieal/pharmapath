@@ -43,6 +43,121 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
 .thinking-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;margin:0 2px;animation:pulse 1.2s ease infinite}
 .thinking-dot:nth-child(2){animation-delay:.2s}
 .thinking-dot:nth-child(3){animation-delay:.4s}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .pp { padding: 10px; }
+  .panel { padding: 15px; margin-bottom: 15px; }
+  .elem-chip { padding: 8px 12px; font-size: 12px; }
+  .btn { padding: 6px 12px; font-size: 13px; }
+  .btn-solid { padding: 8px 16px; font-size: 13px; }
+  
+  /* Stack layout for mobile */
+  .designer-layout {
+    flex-direction: column !important;
+  }
+  
+  .designer-left {
+    order: 1;
+    margin-bottom: 20px;
+  }
+  
+  .designer-right {
+    order: 3;
+  }
+  
+  .analyze-section {
+    order: 2;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .designer-slot {
+    min-height: 150px;
+  }
+  
+  .atom-popup {
+    max-width: 200px;
+    font-size: 12px;
+  }
+}
+
+/* iPhone specific responsive styles (<=450px) */
+@media (max-width: 450px) {
+  .pp { padding: 8px; }
+  .panel { padding: 12px; margin-bottom: 12px; }
+  .elem-chip { padding: 6px 10px; font-size: 11px; }
+  .btn { padding: 5px 10px; font-size: 12px; }
+  .btn-solid { padding: 7px 14px; font-size: 12px; }
+  
+  /* Drug screen: Stack 3D viewer and info card vertically */
+  .drug-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  
+  /* Designer screen: iPhone layout - canvas and AI button at top, fixed */
+  .designer-layout {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  
+  .designer-left {
+    order: 2;
+    margin-top: 16px;
+  }
+  
+  .designer-right {
+    order: 1;
+    position: sticky;
+    top: 60px; /* Account for header height */
+    z-index: 10;
+    background: #060d1a;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(56,189,248,0.1);
+  }
+  
+  .analyze-section {
+    margin: 0 !important;
+    padding: 16px 0;
+  }
+  
+  .designer-slot {
+    min-height: 120px;
+  }
+  
+  /* Header adjustments */
+  .drug-header {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  
+  .drug-header-title {
+    font-size: 18px;
+  }
+  
+  .drug-header-subtitle {
+    font-size: 11px;
+  }
+  
+  /* Lifecycle stepper adjustments */
+  .lifecycle-nav {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .lifecycle-nav button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  
+  /* Atom popup smaller */
+  .atom-popup {
+    max-width: 180px;
+    font-size: 11px;
+    padding: 12px;
+  }
+}
 `;
 
 // ─── CPK COLORS ──────────────────────────────────────
@@ -730,11 +845,11 @@ function DrugScreen({drug,onBack}){
   return(
     <div className="pp fadein" style={{minHeight:"100vh",padding:"0 0 60px"}}>
       {/* Header */}
-      <div style={{background:"rgba(4,10,24,0.95)",borderBottom:"1px solid rgba(56,189,248,0.12)",padding:"16px 24px",position:"sticky",top:0,zIndex:100,display:"flex",alignItems:"center",gap:14}}>
+      <div className="drug-header" style={{background:"rgba(4,10,24,0.95)",borderBottom:"1px solid rgba(56,189,248,0.12)",padding:"16px 24px",position:"sticky",top:0,zIndex:100,display:"flex",alignItems:"center",gap:14}}>
         <button className="btn" onClick={onBack} style={{padding:"6px 14px",fontSize:13}}>← Back</button>
         <div>
-          <div className="syne" style={{fontSize:20,fontWeight:800,color:"#e8f4ff"}}>{drug.name}</div>
-          <div style={{fontSize:12,color:"#38bdf8",fontWeight:600}}>{drug.brand} · {drug.cls}</div>
+          <div className="syne drug-header-title" style={{fontSize:20,fontWeight:800,color:"#e8f4ff"}}>{drug.name}</div>
+          <div className="drug-header-subtitle" style={{fontSize:12,color:"#38bdf8",fontWeight:600}}>{drug.brand} · {drug.cls}</div>
         </div>
         <div style={{marginLeft:"auto",display:"flex",gap:8,flexWrap:"wrap",justifyContent:"flex-end"}}>
           {drug.pgx&&<span style={{background:"rgba(16,185,129,0.15)",border:"1px solid rgba(16,185,129,0.4)",borderRadius:20,padding:"3px 10px",fontSize:11,color:"#34d399",fontWeight:700}}>PGx VARIANT</span>}
@@ -744,7 +859,7 @@ function DrugScreen({drug,onBack}){
       </div>
 
       <div style={{maxWidth:1280,margin:"0 auto",padding:"24px 20px"}}>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,marginBottom:24}}>
+        <div className="drug-info-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,marginBottom:24}}>
 
           {/* 3D Viewer */}
           <div className="card" style={{height:400,padding:0,overflow:"hidden",position:"relative"}}>
@@ -788,7 +903,7 @@ function DrugScreen({drug,onBack}){
           </div>
 
           {/* Step nav */}
-          <div style={{display:"flex",gap:6,marginBottom:22,flexWrap:"wrap"}}>
+          <div className="lifecycle-nav" style={{display:"flex",gap:6,marginBottom:22,flexWrap:"wrap"}}>
             {LC_STEPS.map((s,i)=>(
               <button key={s.key} onClick={()=>setStep(i)}
                 style={{border:`1px solid ${i===step?"rgba(56,189,248,0.7)":i<step?"rgba(56,189,248,0.25)":"rgba(74,96,112,0.3)"}`,background:i===step?"rgba(56,189,248,0.18)":"transparent",color:i===step?"#38bdf8":i<step?"#5a88a0":"#3a5066",borderRadius:8,padding:"6px 12px",cursor:"pointer",fontSize:11,fontWeight:700,letterSpacing:".04em",transition:"all .2s"}}>
@@ -870,6 +985,11 @@ function DesignerScreen(){
     }
     setDragging(null);setIsOver(false);
   };
+  const handleClickAdd=(item)=>{
+    if(canvas.length<14){
+      setCanvas(c=>[...c,{...item,id:Date.now()+Math.random()}]);
+    }
+  };
   const remove=(id)=>setCanvas(c=>c.filter(x=>x.id!==id));
   const clear=()=>{setCanvas([]);setResult(null);setError(null);};
 
@@ -932,15 +1052,16 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
         <div style={{fontSize:14,color:"#6a8ea8"}}>Drag elements & functional groups to the canvas, then get an AI pharmacological analysis</div>
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"260px 1fr",gap:20,alignItems:"start"}}>
+      <div className="designer-layout" style={{display:"grid",gridTemplateColumns:"260px 1fr",gap:20,alignItems:"start"}}>
         {/* Left: Components palette */}
-        <div style={{display:"flex",flexDirection:"column",gap:14}}>
+        <div className="designer-left" style={{display:"flex",flexDirection:"column",gap:14}}>
           <div className="panel">
             <div style={{fontSize:11,fontWeight:700,color:"#38bdf8",letterSpacing:".06em",marginBottom:10}}>ELEMENTS</div>
             <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
               {ELEMENTS.map(e=>(
                 <div key={e.sym} draggable
                   onDragStart={()=>handleDragStart(e)}
+                  onClick={()=>handleClickAdd(e)}
                   className="elem-chip"
                   style={{background:`${e.color}22`,borderColor:`${e.color}55`,color:e.color}}>
                   <span style={{width:8,height:8,borderRadius:"50%",background:e.color,display:"inline-block"}}/>
@@ -955,6 +1076,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
               {GROUPS.map(g=>(
                 <div key={g.sym} draggable
                   onDragStart={()=>handleDragStart(g)}
+                  onClick={()=>handleClickAdd(g)}
                   title={g.desc}
                   className="elem-chip"
                   style={{background:`${g.color}22`,borderColor:`${g.color}55`,color:g.color,justifyContent:"flex-start",fontSize:12}}>
@@ -968,7 +1090,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
         </div>
 
         {/* Right: Canvas + results */}
-        <div style={{display:"flex",flexDirection:"column",gap:16}}>
+        <div className="designer-right" style={{display:"flex",flexDirection:"column",gap:16}}>
           {/* Drop zone */}
           <div ref={dropRef} className={`designer-slot${isOver?" over":""}`}
             onDragOver={e=>{e.preventDefault();setIsOver(true);}}
@@ -996,7 +1118,7 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
           </div>
 
           {/* Actions */}
-          <div style={{display:"flex",gap:10}}>
+          <div className="analyze-section" style={{display:"flex",gap:10}}>
             <button className="btn-solid" onClick={analyzeWithClaude} disabled={loading||canvas.length===0}
               style={{opacity:canvas.length===0?.4:1,flex:1}}>
               {loading?<><span className="thinking-dot"/><span className="thinking-dot"/><span className="thinking-dot"/></>:"🔬 Analyze Pharmacology (AI)"}
