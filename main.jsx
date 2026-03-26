@@ -893,22 +893,25 @@ Analyze this combination and respond in this EXACT JSON format with no other tex
   "novelty": "brief note on whether this is a plausible new chemical entity or redundant with existing drugs"
 }`;
     try{
-      const res=await fetch("https://api.anthropic.com/v1/messages",{
+      const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer sk-or-v1-1234567890abcdef" // Replace with your actual OpenRouter API key
+        },
         body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",
-          max_tokens:1000,
-          messages:[{role:"user",content:prompt}]
+          model:"openrouter/free",
+          messages:[{role:"user",content:prompt}],
+          max_tokens:1000
         })
       });
       const data=await res.json();
-      const text=data.content?.find(b=>b.type==="text")?.text||"";
+      const text=data.choices?.[0]?.message?.content||"";
       const clean=text.replace(/```json|```/g,"").trim();
       const parsed=JSON.parse(clean);
       setResult(parsed);
     }catch(e){
-      setError("Analysis failed. Make sure you have an active Claude API session.");
+      setError("Analysis failed. Please check your OpenRouter API key and try again.");
     }
     setLoading(false);
   };
