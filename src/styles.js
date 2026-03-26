@@ -114,25 +114,40 @@ body{background:#060d1a;color:#ccd9ee;font-family:'DM Sans',sans-serif;min-heigh
     gap: 16px !important;
   }
   
-  /* Designer screen: iPhone layout - canvas and AI button at top, fixed */
+  /* Designer screen: iPhone layout - canvas + AI section first and sticky */
   .designer-layout {
+    display: flex !important;
+    flex-direction: column !important;
     grid-template-columns: 1fr !important;
     gap: 0 !important;
+  }
+  
+  .designer-right {
+    order: 1;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    background: #060d1a;
+    width: 100%;
+    padding: 12px 0 16px;
+    border-bottom: 1px solid rgba(56,189,248,0.12);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.32);
+  }
+
+  .designer-left {
+    order: 2;
+    margin-top: 16px;
   }
   
   .designer-left {
     order: 2;
     margin-top: 16px;
   }
-  
-  .designer-right {
-    order: 1;
-    position: sticky;
-    top: 60px; /* Account for header height */
-    z-index: 10;
-    background: #060d1a;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(56,189,248,0.1);
+
+  .designer-layout {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
   }
   
   .analyze-section {
