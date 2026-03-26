@@ -1191,9 +1191,9 @@ export default function App(){
   return(
     <div className="pp">
       <NavBar view={view} onHome={goHome} onDesigner={goDesigner}/>
-      {view==="home"&&<HomeScreen onSelect={goDrug} onDesigner={goDesigner}/>
-      {view==="drug"&&selDrug&&<DrugScreen drug={selDrug} onBack={goHome}/>
-      {view==="designer"&&<DesignerScreen()/>
+      {view==="home"&&<HomeScreen onSelect={goDrug} onDesigner={goDesigner}/>}
+      {view==="drug"&&selDrug&&<DrugScreen drug={selDrug} onBack={goHome}/>}
+      {view==="designer"&&<DesignerScreen />}
     </div>
   );
 }
