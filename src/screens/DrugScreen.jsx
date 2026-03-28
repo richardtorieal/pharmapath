@@ -25,8 +25,8 @@ export function DrugScreen({ drug, onBack }) {
       <div
         className="drug-header"
         style={{
-          background: "rgba(4,10,24,0.95)",
-          borderBottom: "1px solid rgba(56,189,248,0.12)",
+          background: "var(--theme-surface, rgba(4,10,24,0.95))",
+          borderBottom: "1px solid var(--theme-borderDim, rgba(56,189,248,0.12))",
           padding: "16px 24px",
           position: "sticky",
           top: 55,
@@ -49,7 +49,7 @@ export function DrugScreen({ drug, onBack }) {
             style={{
               fontSize: 20,
               fontWeight: 800,
-              color: "#e8f4ff",
+              color: "var(--theme-text, #e8f4ff)",
             }}
           >
             {drug.name}
@@ -58,7 +58,7 @@ export function DrugScreen({ drug, onBack }) {
             className="drug-header-subtitle"
             style={{
               fontSize: 12,
-              color: "#38bdf8",
+              color: "var(--theme-primary, #38bdf8)",
               fontWeight: 600,
             }}
           >
@@ -106,12 +106,12 @@ export function DrugScreen({ drug, onBack }) {
           )}
           <span
             style={{
-              background: "rgba(56,189,248,0.1)",
-              border: "1px solid rgba(56,189,248,0.3)",
+              background: "var(--theme-primaryLight, rgba(56,189,248,0.1))",
+              border: "1px solid var(--theme-border, rgba(56,189,248,0.3))",
               borderRadius: 20,
               padding: "3px 10px",
               fontSize: 11,
-              color: "#38bdf8",
+              color: "var(--theme-primary, #38bdf8)",
               fontWeight: 600,
             }}
           >
