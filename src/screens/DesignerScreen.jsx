@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ELEMENTS, GROUPS } from "../constants.js";
+import { analyzeDrugComponents } from "../services/ai.service.js";
 
 export function DesignerScreen() {
   const [canvas, setCanvas] = useState([]);
@@ -59,71 +60,18 @@ export function DesignerScreen() {
     setError(null);
   };
 
-  const ANALYSIS_SCHEMA = {
-    type: "object",
-    properties: {
-      name:           { type: "string" },
-      moa:            { type: "string" },
-      target:         { type: "string" },
-      indication:     { type: "string" },
-      adme:           { type: "string" },
-      verdict:        { type: "string", enum: ["BENEFICIAL", "RISKY", "TOXIC", "INERT", "CONTROLLED SUBSTANCE"] },
-      verdict_reason: { type: "string" },
-      warnings:       { type: "array", items: { type: "string" } },
-      similar_drugs:  { type: "array", items: { type: "string" } },
-      novelty:        { type: "string" },
-    },
-    required: ["name", "moa", "target", "indication", "adme", "verdict", "verdict_reason", "warnings", "similar_drugs", "novelty"],
-    additionalProperties: false,
-  };
 
-  const analyzeWithClaude = async () => {
+
+  const handleAnalysis = async () => {
     if (canvas.length === 0) return;
     setLoading(true);
     setResult(null);
     setError(null);
-    const components = canvas.map((c) => c.sym).join(", ");
-    const prompt = `You are a medicinal chemist and pharmacologist. A pharmacy student has assembled the following chemical components for a hypothetical drug molecule: [${components}]. Analyze this combination and return a pharmacological assessment.`;
     try {
-      const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "openrouter/free",
-          messages: [{ role: "user", content: prompt }],
-          max_tokens: 1000,
-          response_format: {
-            type: "json_schema",
-            json_schema: {
-              name: "drug_analysis",
-              strict: true,
-              schema: ANALYSIS_SCHEMA,
-            },
-          },
-        }),
-      });
-      const data = await res.json();
-      const finishReason = data.choices?.[0]?.finish_reason;
-      const text = data.choices?.[0]?.message?.content || "";
-
-      if (!text || finishReason === "length" || data.error) {
-        throw new Error("model_failure");
-      }
-
-      const parsed = JSON.parse(text);
-
-      // Validate the required fields came back correctly
-      if (!parsed.verdict || !parsed.name || !parsed.moa) {
-        throw new Error("schema_mismatch");
-      }
-
+      const parsed = await analyzeDrugComponents(canvas);
       setResult(parsed);
     } catch (e) {
-      console.log("Error analyzing open router response:", e);
+      console.log("Error analyzing components:", e);
       setError("lab_error");
     }
     setLoading(false);
@@ -360,7 +308,7 @@ export function DesignerScreen() {
           <div className="analyze-section" style={{ display: "flex", gap: 10 }}>
             <button
               className={`btn-solid${loading ? " loading" : ""}`}
-              onClick={analyzeWithClaude}
+              onClick={handleAnalysis}
               disabled={loading || canvas.length === 0}
               style={{
                 opacity: canvas.length === 0 && !loading ? 0.4 : 1,
