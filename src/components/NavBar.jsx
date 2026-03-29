@@ -1,9 +1,9 @@
-export function NavBar({ view, onHome, onDesigner }) {
+export function NavBar({ view, onHome, onDesigner, theme, onThemeToggle }) {
   return (
     <div
       style={{
-        background: "rgba(4,10,24,0.98)",
-        borderBottom: "1px solid rgba(56,189,248,0.12)",
+        background: "var(--theme-surface, rgba(4,10,24,0.98))",
+        borderBottom: "1px solid var(--theme-borderDim, rgba(56,189,248,0.12))",
         padding: "12px 24px",
         display: "flex",
         alignItems: "center",
@@ -29,9 +29,9 @@ export function NavBar({ view, onHome, onDesigner }) {
             width: 30,
             height: 30,
             borderRadius: 8,
-            background:
-              "linear-gradient(135deg,rgba(56,189,248,0.3),rgba(16,185,129,0.2))",
-            border: "1px solid rgba(56,189,248,0.4)",
+            background: "transparent",
+            border: "1px solid var(--theme-primary, rgba(56,189,248,0.4))",
+            color: "var(--theme-text, #e8f4ff)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -45,7 +45,7 @@ export function NavBar({ view, onHome, onDesigner }) {
           style={{
             fontSize: 16,
             fontWeight: 700,
-            color: "#e8f4ff",
+            color: "var(--theme-text, #e8f4ff)",
             letterSpacing: ".02em",
           }}
         >
@@ -66,6 +66,27 @@ export function NavBar({ view, onHome, onDesigner }) {
         style={{ fontSize: 12, padding: "5px 14px" }}
       >
         ⚗️ Designer
+      </button>
+      <button
+        onClick={onThemeToggle}
+        title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        style={{
+          background: "none",
+          border: "1px solid var(--theme-borderLight, rgba(56,189,248,0.15))",
+          color: "var(--theme-primary, #38bdf8)",
+          borderRadius: 8,
+          padding: "5px 12px",
+          cursor: "pointer",
+          fontSize: 14,
+          transition: "all 0.2s",
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--theme-primaryLight, rgba(56,189,248,0.15))")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+      >
+        {theme === "dark" ? "☀️" : "🌙"}
       </button>
     </div>
   );

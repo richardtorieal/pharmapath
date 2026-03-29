@@ -75,6 +75,15 @@ constants.js (DRUGS, LC_CONTENT, CPK, LIFECYCLE_STEPS)
            - LC_CONTENT[step][depth](drug) → markdown string → MD component
            - LIFECYCLE_STEPS[step] → title, icon, short label
            - drug.pgx → PGxSection
+
+         DesignerScreen: uses drag-and-drop to assemble molecule parts
+              │ on analyze click
+              ▼
+         services/ai.service.js: abstract layer to fetch AI pharmacology reviews
+              │ formats array of molecule components as prompt
+              │ uses multi-stage AI fallback (Google Gen AI primary/fallback -> OpenRouter failover)
+              ▼
+         DesignerScreen: reads typed AI JSON response and updates state
 ```
 
 ---

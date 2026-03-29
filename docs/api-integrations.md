@@ -1,52 +1,46 @@
 # PharmaPath — API Integrations
 
-## OpenRouter AI API
+## AI Integrations (Modular Architecture)
 
-Used in `DesignerScreen` for AI-powered drug analysis. Currently the DesignerScreen UI is not implemented, but the API key is configured and the integration was partially built.
+PharmaPath uses a multi-provider, multi-stage fallback approach to ensure reliable AI responses for the `DesignerScreen` analysis. The configuration for this is centralized in `src/config/ai.config.js` and the logic is handled by `src/services/ai.service.js`.
 
-### Configuration
+### 1. Google Gen AI (Primary Provider)
+The application uses the official `@google/genai` library to request structured JSON responses.
+- **Primary Model**: `gemini-3.1-flash-lite-preview`
+- **Fallback Model**: `gemini-2.5-flash` (used if the primary model fails, e.g., due to rate limits or transient errors)
+
+**Configuration:**
 ```bash
-# .env.local (not committed)
+# .env.local
+VITE_GEMINI_API_KEY=your_gemini_api_key
+# Alternatively
+VITE_GOOGLE_GEN_AI_API_KEY=your_gemini_api_key
+```
+
+### 2. OpenRouter (Fallback Provider)
+If both models within the Google provider fail, the service will fall back to using OpenRouter via `fetch` as a secondary tracking provider.
+- **Model**: `google/gemma-3-27b-it:free` (A free Gemma 3 model optimized for instruction following and structured outputs).
+
+**Configuration:**
+```bash
+# .env.local
 VITE_OPENROUTER_API_KEY=sk-or-v1-...
 ```
 
-Accessed in code via:
-```javascript
-import.meta.env.VITE_OPENROUTER_API_KEY
-```
-
-### Endpoint
-```
-POST https://openrouter.ai/api/v1/chat/completions
-```
-
-### Headers
-```javascript
-{
-  "Content-Type": "application/json",
-  "Authorization": `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`
-}
-```
-
-### Model
-```javascript
-model: "openrouter/free"
-```
-The free tier was selected to avoid costs. Can be swapped for a paid model for higher quality output.
-
 ### Intended Use Case
-When DesignerScreen is built:
-1. User assembles a molecule via drag-and-drop
-2. User clicks "Analyze" button
-3. App sends molecule description (atoms, bonds, functional groups) to OpenRouter
-4. AI returns educational commentary on the molecule's likely pharmacological properties
-5. Response is displayed in the designer UI
+1. User assembles a molecule via drag-and-drop in `DesignerScreen`.
+2. User clicks "Analyze".
+3. `ai.service.js` constructs the prompt and requests a JSON response conforming strictly to `ANALYSIS_SCHEMA`.
+4. The service tries Google Gen AI (gemini-3.1-flash-lite-preview).
+5. If it fails, it tries the Google Gen AI fallback (gemini-2.5-flash).
+6. If the entire Google provider fails, it tries the OpenRouter fallback (gemma-3).
+7. The parsed, validated JSON is displayed in the designer UI.
 
 ### Security Note
-`VITE_` prefixed env vars are **bundled into the client-side JS** by Vite. The OpenRouter API key is visible in the browser. For production, consider:
-- Using a backend proxy to keep the key server-side
+`VITE_` prefixed env vars are **bundled into the client-side JS** by Vite. Your API keys are visible in the browser. For production, consider:
+- Using a backend proxy/service wrapper to keep the keys server-side
 - Rate-limiting requests
-- Using a restricted/scoped API key
+- Setting strict quota limits and IP referrers for keys
 
 ---
 

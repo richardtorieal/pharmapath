@@ -31,13 +31,13 @@ export function HomeScreen({ onSelect, onDesigner }) {
         <div
           style={{
             display: "inline-block",
-            background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.3)",
+            background: "var(--theme-primaryLight, rgba(56,189,248,0.1))",
+            border: "1px solid var(--theme-border, rgba(56,189,248,0.3))",
             borderRadius: 20,
             padding: "4px 14px",
             fontSize: 11,
             fontWeight: 700,
-            color: "#38bdf8",
+            color: "var(--theme-primary, #38bdf8)",
             letterSpacing: ".08em",
             marginBottom: 18,
           }}
@@ -49,7 +49,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
           style={{
             fontSize: 42,
             fontWeight: 800,
-            color: "#e8f4ff",
+            color: "var(--theme-text, #e8f4ff)",
             lineHeight: 1.15,
             marginBottom: 12,
           }}
@@ -59,7 +59,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
         <div
           style={{
             fontSize: 16,
-            color: "#6a8ea8",
+            color: "var(--theme-textMuted, #6a8ea8)",
             maxWidth: 580,
             margin: "0 auto 28px",
           }}
@@ -133,11 +133,11 @@ export function HomeScreen({ onSelect, onDesigner }) {
             placeholder="Search..."
             style={{
               marginLeft: "auto",
-              background: "rgba(8,18,40,0.8)",
-              border: "1px solid rgba(56,189,248,0.2)",
+              background: "var(--theme-surfaceAlt, rgba(8,18,40,0.8))",
+              border: "1px solid var(--theme-border, rgba(56,189,248,0.2))",
               borderRadius: 8,
               padding: "7px 14px",
-              color: "#ccd9ee",
+              color: "var(--theme-text, #ccd9ee)",
               fontSize: 13,
               outline: "none",
               width: 200,
@@ -178,12 +178,12 @@ export function HomeScreen({ onSelect, onDesigner }) {
                     style={{
                       fontSize: 17,
                       fontWeight: 700,
-                      color: "#e8f4ff",
+                      color: "var(--theme-text, #e8f4ff)",
                     }}
                   >
                     {drug.name}
                   </div>
-                  <div style={{ fontSize: 12, color: "#38bdf8", marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: "var(--theme-primary, #38bdf8)", marginTop: 2 }}>
                     {drug.brand}
                   </div>
                 </div>
@@ -206,14 +206,14 @@ export function HomeScreen({ onSelect, onDesigner }) {
               <div
                 style={{
                   fontSize: 12,
-                  color: "#7a9ab8",
+                  color: "var(--theme-textMuted, #7a9ab8)",
                   marginBottom: 8,
                   lineHeight: 1.5,
                 }}
               >
                 {drug.ind}
               </div>
-              <div style={{ fontSize: 11, color: "#4a6080", fontStyle: "italic", marginBottom: 10 }}>
+              <div style={{ fontSize: 11, color: "var(--theme-textDim, #4a6080)", fontStyle: "italic", marginBottom: 10 }}>
                 {drug.cls}
               </div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -255,7 +255,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
                       borderRadius: 20,
                       padding: "2px 8px",
                       fontSize: 10,
-                      color: "#38bdf8",
+                      color: "var(--theme-primary, #38bdf8)",
                     }}
                   >
                     3D Viewer
@@ -279,7 +279,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
         </div>
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: "center", padding: 60, color: "#3a5066" }}>
+          <div style={{ textAlign: "center", padding: 60, color: "var(--theme-textDim, #3a5066)" }}>
             <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
             <div>No drugs match your search</div>
           </div>
@@ -301,7 +301,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
             style={{
               fontSize: 18,
               fontWeight: 700,
-              color: "#6ee7b7",
+              color: "var(--theme-text, #6ee7b7)",
               marginBottom: 10,
             }}
           >
@@ -310,7 +310,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
           <div
             style={{
               fontSize: 13,
-              color: "#a7f3d0",
+              color: "var(--theme-textMuted, #a7f3d0)",
               lineHeight: 1.8,
               maxWidth: 900,
             }}

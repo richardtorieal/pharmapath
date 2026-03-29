@@ -38,7 +38,7 @@ export function AtomPanel({ atom, onClose }) {
               fontFamily: "'Syne',sans-serif",
               fontSize: 16,
               fontWeight: 700,
-              color: "#e8f4ff",
+              color: "var(--theme-text, #e8f4ff)",
             }}
           >
             {atom.element}
