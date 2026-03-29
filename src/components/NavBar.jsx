@@ -29,9 +29,9 @@ export function NavBar({ view, onHome, onDesigner, theme, onThemeToggle }) {
             width: 30,
             height: 30,
             borderRadius: 8,
-            background:
-              "linear-gradient(135deg,var(--theme-primary, rgba(56,189,248,0.3)),var(--theme-success, rgba(16,185,129,0.2)))",
+            background: "transparent",
             border: "1px solid var(--theme-primary, rgba(56,189,248,0.4))",
+            color: "var(--theme-text, #e8f4ff)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -45,7 +45,7 @@ export function NavBar({ view, onHome, onDesigner, theme, onThemeToggle }) {
           style={{
             fontSize: 16,
             fontWeight: 700,
-            color: "#e8f4ff",
+            color: "var(--theme-text, #e8f4ff)",
             letterSpacing: ".02em",
           }}
         >

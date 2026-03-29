@@ -148,8 +148,8 @@ export function DrugScreen({ drug, onBack }) {
                 zIndex: 2,
                 fontFamily: "'JetBrains Mono',monospace",
                 fontSize: 11,
-                color: "rgba(56,189,248,0.7)",
-                background: "rgba(4,11,28,0.8)",
+                color: "var(--theme-primary, rgba(56,189,248,0.9))",
+                background: "var(--theme-surfaceAlt, rgba(4,11,28,0.8))",
                 borderRadius: 6,
                 padding: "4px 8px",
               }}
@@ -165,7 +165,7 @@ export function DrugScreen({ drug, onBack }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#4a6080",
+                  color: "var(--theme-textDim, #4a6080)",
                   flexDirection: "column",
                   gap: 8,
                 }}
@@ -199,7 +199,7 @@ export function DrugScreen({ drug, onBack }) {
                     <div
                       style={{
                         fontSize: 10,
-                        color: "#38bdf8",
+                        color: "var(--theme-primary, #38bdf8)",
                         fontWeight: 700,
                         letterSpacing: ".06em",
                         marginBottom: 3,
@@ -207,7 +207,7 @@ export function DrugScreen({ drug, onBack }) {
                     >
                       {k.toUpperCase()}
                     </div>
-                    <div style={{ fontSize: 13, color: "#ccd9ee" }}>{v}</div>
+                    <div style={{ fontSize: 13, color: "var(--theme-text, #ccd9ee)" }}>{v}</div>
                   </div>
                 ))}
               </div>
@@ -215,7 +215,7 @@ export function DrugScreen({ drug, onBack }) {
                 <div
                   style={{
                     fontSize: 11,
-                    color: "#4a6080",
+                    color: "var(--theme-textDim, #4a6080)",
                     fontWeight: 600,
                     marginBottom: 6,
                   }}
@@ -258,7 +258,7 @@ export function DrugScreen({ drug, onBack }) {
               gap: 12,
             }}
           >
-            <div className="syne" style={{ fontSize: 17, fontWeight: 700, color: "#e8f4ff" }}>
+            <div className="syne" style={{ fontSize: 17, fontWeight: 700, color: "var(--theme-text, #e8f4ff)" }}>
               Drug Lifecycle Journey
             </div>
             <DepthToggle depth={depth} onChange={setDepth} />
@@ -293,7 +293,7 @@ export function DrugScreen({ drug, onBack }) {
                       ? "#38bdf8"
                       : i < step
                       ? "#5a88a0"
-                      : "#3a5066",
+                      : "var(--theme-textDim, #3a5066)",
                   borderRadius: 8,
                   padding: "6px 12px",
                   cursor: "pointer",
@@ -316,7 +316,7 @@ export function DrugScreen({ drug, onBack }) {
                 style={{
                   fontSize: 20,
                   fontWeight: 700,
-                  color: "#e8f4ff",
+                  color: "var(--theme-text, #e8f4ff)",
                   marginBottom: 4,
                 }}
               >
@@ -383,7 +383,7 @@ export function DrugScreen({ drug, onBack }) {
             >
               ← Previous
             </button>
-            <span style={{ fontSize: 12, color: "#4a6080", alignSelf: "center" }}>
+            <span style={{ fontSize: 12, color: "var(--theme-textDim, #4a6080)", alignSelf: "center" }}>
               {step + 1} / {LC_STEPS.length}
             </span>
             <button

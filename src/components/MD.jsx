@@ -32,7 +32,7 @@ export function MD({ text, style = {} }) {
 
   return (
     <div
-      style={{ fontSize: 14, color: "#a8c4dc", ...style }}
+      style={{ fontSize: 14, color: "var(--theme-textMuted, #a8c4dc)", ...style }}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

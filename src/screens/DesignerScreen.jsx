@@ -118,13 +118,13 @@ export function DesignerScreen() {
           style={{
             fontSize: 28,
             fontWeight: 800,
-            color: "#e8f4ff",
+            color: "var(--theme-text, #e8f4ff)",
             marginBottom: 6,
           }}
         >
           Drug Designer Sandbox
         </div>
-        <div style={{ fontSize: 14, color: "#6a8ea8" }}>
+        <div style={{ fontSize: 14, color: "var(--theme-textMuted, #6a8ea8)" }}>
           Drag elements & functional groups to the canvas, then get an AI
           pharmacological analysis
         </div>
@@ -146,7 +146,7 @@ export function DesignerScreen() {
               style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: "#38bdf8",
+                color: "var(--theme-primary, #38bdf8)",
                 letterSpacing: ".06em",
                 marginBottom: 10,
               }}
@@ -186,7 +186,7 @@ export function DesignerScreen() {
               style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: "#38bdf8",
+                color: "var(--theme-primary, #38bdf8)",
                 letterSpacing: ".06em",
                 marginBottom: 10,
               }}
@@ -221,7 +221,7 @@ export function DesignerScreen() {
                     }}
                   />
                   <span style={{ fontWeight: 700, minWidth: 42 }}>{g.sym}</span>
-                  <span style={{ fontSize: 10, color: "#6a8ea8", marginLeft: 4 }}>
+                  <span style={{ fontSize: 10, color: "var(--theme-textMuted, #6a8ea8)", marginLeft: 4 }}>
                     {g.name}
                   </span>
                 </div>
@@ -249,7 +249,7 @@ export function DesignerScreen() {
             }}
           >
             {canvas.length === 0 ? (
-              <div style={{ textAlign: "center", color: "#3a5066", userSelect: "none" }}>
+              <div style={{ textAlign: "center", color: "var(--theme-textDim, #3a5066)", userSelect: "none" }}>
                 <div style={{ fontSize: 40, marginBottom: 10 }}>⚗️</div>
                 <div style={{ fontSize: 14, marginBottom: 4 }}>
                   Drop components here
@@ -296,7 +296,7 @@ export function DesignerScreen() {
                     </div>
                   ))}
                 </div>
-                <div style={{ fontSize: 12, color: "#3a5066" }}>
+                <div style={{ fontSize: 12, color: "var(--theme-textDim, #3a5066)" }}>
                   {canvas.length} component{canvas.length !== 1 ? "s" : ""} assembled
                   · Click × to remove
                 </div>
@@ -342,7 +342,7 @@ export function DesignerScreen() {
                   borderRadius: 10,
                   padding: 14,
                   fontSize: 13,
-                  color: "#f87171",
+                  color: "var(--theme-danger, #f87171)",
                   display: "flex",
                   alignItems: "flex-start",
                   gap: 10,
@@ -353,7 +353,7 @@ export function DesignerScreen() {
                   <div style={{ fontWeight: 700, marginBottom: 4 }}>
                     The AI Lab Assistant broke a test tube
                   </div>
-                  <div style={{ fontSize: 12, color: "#fca5a5", opacity: 0.85 }}>
+                  <div style={{ fontSize: 12, color: "var(--theme-textDim, #fca5a5)", opacity: 0.85 }}>
                     Please Try again
                   </div>
                 </div>
@@ -407,7 +407,7 @@ export function DesignerScreen() {
                     style={{
                       fontSize: 20,
                       fontWeight: 700,
-                      color: "#e8f4ff",
+                      color: "var(--theme-text, #e8f4ff)",
                       marginBottom: 16,
                     }}
                   >
@@ -431,8 +431,8 @@ export function DesignerScreen() {
                       <div
                         key={label}
                         style={{
-                          background: "rgba(56,189,248,0.04)",
-                          border: "1px solid rgba(56,189,248,0.1)",
+                          background: "var(--theme-primaryLight, rgba(56,189,248,0.04))",
+                          border: "1px solid var(--theme-borderLight, rgba(56,189,248,0.1))",
                           borderRadius: 8,
                           padding: "10px 12px",
                         }}
@@ -441,7 +441,7 @@ export function DesignerScreen() {
                           style={{
                             fontSize: 11,
                             fontWeight: 700,
-                            color: "#38bdf8",
+                            color: "var(--theme-primary, #38bdf8)",
                             marginBottom: 5,
                           }}
                         >
@@ -450,7 +450,7 @@ export function DesignerScreen() {
                         <div
                           style={{
                             fontSize: 13,
-                            color: "#a8c4dc",
+                            color: "var(--theme-text, #a8c4dc)",
                             lineHeight: 1.6,
                           }}
                         >
@@ -474,7 +474,7 @@ export function DesignerScreen() {
                         style={{
                           fontSize: 11,
                           fontWeight: 700,
-                          color: "#f87171",
+                          color: "var(--theme-danger, #f87171)",
                           marginBottom: 6,
                         }}
                       >
@@ -485,7 +485,7 @@ export function DesignerScreen() {
                           key={i}
                           style={{
                             fontSize: 12,
-                            color: "#fca5a5",
+                            color: "var(--theme-textDim, #fca5a5)",
                             padding: "3px 0",
                             borderBottom:
                               i < result.warnings.length - 1
@@ -505,7 +505,7 @@ export function DesignerScreen() {
                         style={{
                           fontSize: 11,
                           fontWeight: 700,
-                          color: "#38bdf8",
+                          color: "var(--theme-primary, #38bdf8)",
                           marginBottom: 6,
                         }}
                       >
@@ -531,7 +531,7 @@ export function DesignerScreen() {
                         style={{
                           fontSize: 11,
                           fontWeight: 700,
-                          color: "#38bdf8",
+                          color: "var(--theme-primary, #38bdf8)",
                           marginBottom: 6,
                         }}
                       >
@@ -540,7 +540,7 @@ export function DesignerScreen() {
                       <div
                         style={{
                           fontSize: 12,
-                          color: "#8ab0c8",
+                          color: "var(--theme-textMuted, #8ab0c8)",
                           lineHeight: 1.6,
                         }}
                       >

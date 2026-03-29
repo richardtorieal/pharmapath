@@ -31,13 +31,13 @@ export function HomeScreen({ onSelect, onDesigner }) {
         <div
           style={{
             display: "inline-block",
-            background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.3)",
+            background: "var(--theme-primaryLight, rgba(56,189,248,0.1))",
+            border: "1px solid var(--theme-border, rgba(56,189,248,0.3))",
             borderRadius: 20,
             padding: "4px 14px",
             fontSize: 11,
             fontWeight: 700,
-            color: "#38bdf8",
+            color: "var(--theme-primary, #38bdf8)",
             letterSpacing: ".08em",
             marginBottom: 18,
           }}
@@ -133,8 +133,8 @@ export function HomeScreen({ onSelect, onDesigner }) {
             placeholder="Search..."
             style={{
               marginLeft: "auto",
-              background: "rgba(8,18,40,0.8)",
-              border: "1px solid rgba(56,189,248,0.2)",
+              background: "var(--theme-surfaceAlt, rgba(8,18,40,0.8))",
+              border: "1px solid var(--theme-border, rgba(56,189,248,0.2))",
               borderRadius: 8,
               padding: "7px 14px",
               color: "var(--theme-text, #ccd9ee)",
@@ -255,7 +255,7 @@ export function HomeScreen({ onSelect, onDesigner }) {
                       borderRadius: 20,
                       padding: "2px 8px",
                       fontSize: 10,
-                      color: "#38bdf8",
+                      color: "var(--theme-primary, #38bdf8)",
                     }}
                   >
                     3D Viewer
